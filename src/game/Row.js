@@ -1,10 +1,14 @@
-import './index.css';
+import React, { memo } from 'react';
+import Square from './Square';
 
-function Row() {
-  return (
-    <span>
+const Row = props => {
+  return(
+    <span className='row'>
+      {props.row.map( (square, index) =>
+        <Square square={square} key={index}/>
+      )}
     </span>
   );
-}
+};
 
-export default Row;
+export default memo(Row);
