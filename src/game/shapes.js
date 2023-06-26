@@ -1,6 +1,6 @@
 const SHAPES = [
     {
-        shape: [
+        coordinates: [
             {x:0, y:0},
             {x:0, y:1},
             {x:1, y:0},
@@ -11,7 +11,7 @@ const SHAPES = [
         rotate: false
     },
     {
-        shape: [
+        coordinates: [
             {x:0, y:0},
             {x:0, y:1},
             {x:0, y:2},
@@ -21,7 +21,7 @@ const SHAPES = [
         height: 4
     },
     {
-        shape: [
+        coordinates: [
             {x:0, y:0},
             {x:0, y:1},
             {x:0, y:2},
