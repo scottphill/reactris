@@ -39,3 +39,22 @@ function fillPointInView(view, x, y) {
 
     return result;
 }
+
+createNewGrid = () => Array(NUM_ROWS).fill().map(() => Array(NUM_COLS).fill(0));
+
+export function useBoard() {
+    const [grid, setGrid] = useState(() => createNewGrid());
+    const [shape, setShape] = useState(() => randomShape());
+    const [position, setPosition] = useState({x: 0, y: 0});
+    const [view, setView] = useState(() => placeShapeIntoView(grid, shape, position));
+    const [score, setScore] = useState(0);
+
+    function updateView() {}
+    function tick() {}
+    function insertNewShape() {}
+    function rotateShape() {}
+    function removeFilledLines() {}
+    function onKeyDown() {}
+    function tryMoveShape() {}
+    function isValidPosition() {}
+}
