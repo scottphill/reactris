@@ -1,8 +1,9 @@
 import React, { memo, useEffect, useRef } from 'react';
+import { useBoard } from './UseBoard';
 import Row from './Row';
 
 function Board() {
-  const [display, score, onKeyDown] = useBoard();
+  const [view, score, onKeyDown] = useBoard();
   const eBoard = useRef();
 
   useEffect(() => {
@@ -15,7 +16,7 @@ function Board() {
         <span className='score-label'>Score:</span>
         <span className='score-label'>{score.toLocaleString()}</span>
       </div>
-      {display.map( (row, index) =>
+      {view.map( (row, index) =>
         <Row row={row} key={index}/>
       )}
     </div>

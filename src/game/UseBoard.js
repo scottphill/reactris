@@ -49,12 +49,89 @@ export function useBoard() {
     const [view, setView] = useState(() => placeShapeIntoView(grid, shape, position));
     const [score, setScore] = useState(0);
 
-    function updateView() {}
-    function tick() {}
-    function insertNewShape() {}
-    function rotateShape() {}
+    useEffect(updateView, [grid, shape, position]);
+    useEffect(removeFilledLines, grid);
+    useInterval(tick, 600)
+
+    function updateView() {
+        const newView = placeShapeIntoView(grid, shape, position);
+        setView(newView);
+    }
+
+    function tick() {
+        if(!tryMoveShape(0, 1))
+            insertNewShape();
+    }
+
+    function insertNewShape() {
+        setGrid(placeShapeIntoView(grid, shape, position));
+        setShape(randomShape());
+        setPosition(0, 0);
+    }
+
+    function rotateShape() {
+        const tX = Math.floor(shape.width / 2);
+        const tY = Math.floor(shape.height / 2);
+
+        const newPoints = shape.coordinates.map( point => {
+            let { x, y } = point;
+
+            x -= tX;
+            y -= tY;
+
+            // cos 90 = 0, sin 90 = 1
+            // x = x cos 90 - y sin 90 = -y
+            // y = x sin 90 + y cos 90 = x
+            let rX = -y;
+            let rY = x;
+
+            rX += tX;
+            rY += tY;
+
+            return {
+                x: rX, 
+                y: rY
+            };
+        });
+
+        const newShape = {
+            coordinates: newPoints,
+            width: shape.width,
+            height: shape.height
+        };
+
+        if(isValidPosition(position, newShape))
+            setShape(newShape);
+    }
+
     function removeFilledLines() {}
-    function onKeyDown() {}
-    function tryMoveShape() {}
-    function isValidPosition() {}
+    function onKeyDown(event) {}
+
+    function tryMoveShape(xDiff, yDiff) {
+        const newPosition = {
+            x: position.x + xDiff,
+            y: position.y + yDiff
+        };
+
+        if(isValidPosition(newPosition, shape)) {
+            return false;
+        }
+        else {
+            setPosition(newPosition);
+            return true;
+        }
+    }
+
+    function isValidPosition(position, shape) {
+        return shape.coordinates.every( coordinate => {
+            const xPosition = coordinate.x + position.x;
+            const yPosition = coordinate.y + position.y;
+
+            return xPosition >= 0 && xPosition < NUM_COLS
+                    && yPosition >= 0 && yPosition < NUM_ROWS
+                    && grid[yPosition][xPosition] !== FILLED;
+        });
+    }
+
+    return[view, score, onKeyDown];
 }
