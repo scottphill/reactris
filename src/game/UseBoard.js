@@ -104,8 +104,23 @@ export function useBoard() {
             setShape(newShape);
     }
 
-    function removeFilledLines() {}
-    function onKeyDown(event) {}
+    function removeFilledLines() {
+        
+    }
+
+    const KEY_HANDLERS = {
+        'ArrowLeft': () => tryMoveShape(-1, 0),
+        'ArrowRight': () => tryMoveShape(1, 0),
+        'ArrowUp': () => rotateShape(),
+        'ArrowDown': () => tryMoveShape(0, 1)
+    };
+
+    function onKeyDown(event) {
+        if(event.key && event.key in KEY_HANDLERS) {
+            event.preventDefault();
+            KEY_HANDLERS[event.key]();
+        }
+    }
 
     function tryMoveShape(xDiff, yDiff) {
         const newPosition = {
