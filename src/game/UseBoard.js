@@ -105,7 +105,34 @@ export function useBoard() {
     }
 
     function removeFilledLines() {
-        
+        const newGrid = copyGrid(grid);
+        let earnedPoints = 0;
+        let lineStreak = 0;
+
+        const removeRow = (rowIndex) => {
+
+        };
+
+        for(let y = 0; y < NUM_ROWS; y++) {
+            let isFullRow = true;
+
+            for(let x = 0; x < NUM_COLS; x++) {
+                if(newGrid[y][x] == FILLED) {
+                    isFullRow = false;
+                    break;
+                }
+            }
+
+            if(isFullRow) {
+                removeRow(y);
+                lineStreak++;
+            }
+        }
+
+        if(earnedPoints) {
+            setGrid(newGrid);
+            setScore( oldScore => oldScore + earnedPoints);
+        }
     }
 
     const KEY_HANDLERS = {
