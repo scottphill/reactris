@@ -104,13 +104,28 @@ export function useBoard() {
             setShape(newShape);
     }
 
+    const lineClearScores = {
+        0: 0,
+        1: 1000,
+        2: 3000,
+        3: 5000,
+        4: 8000
+    };
+
     function removeFilledLines() {
         const newGrid = copyGrid(grid);
         let earnedPoints = 0;
         let lineStreak = 0;
 
         const removeRow = (rowIndex) => {
+            for (let y = rowIndex; y > 0; y--) {
+                for (let x = 0; x < NUM_COLS - 1; x++) {
+                    newGrid[y][x] = newGrid[y-1][x];
+                }
+            }
 
+            for(let x = 0; x < NUM_COLS - 1; x++)
+                newGrid[0][x] = 0;
         };
 
         for(let y = 0; y < NUM_ROWS; y++) {
@@ -127,7 +142,14 @@ export function useBoard() {
                 removeRow(y);
                 lineStreak++;
             }
+            else if (lineStreak) {
+                earnedPoints += lineClearScores[lineStreak];
+                lineStreak = 0;
+            }
         }
+
+        if(lineStreak)
+            earnedPoints += lineClearScores[lineStreak];
 
         if(earnedPoints) {
             setGrid(newGrid);
