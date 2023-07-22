@@ -17,10 +17,10 @@ function placeShapeIntoView(view, shape, position) {
         const newX = coordinate.x + position.x;
         const newY = coordinate.y + position.y;
 
-        if(x < 0 || y < 0 || x >= NUM_COLS || y >= NUM_ROWS)
+        if(newX < 0 || newY < 0 || newX >= NUM_COLS || newY >= NUM_ROWS)
             return;
         else
-            result = fillPointInView(result, x, y);
+            result = fillPointInView(result, newX, newY);
     });
 
     return result;
@@ -40,7 +40,7 @@ function fillPointInView(view, x, y) {
     return result;
 }
 
-createNewGrid = () => Array(NUM_ROWS).fill().map(() => Array(NUM_COLS).fill(0));
+const createNewGrid = () => Array(NUM_ROWS).fill().map(() => Array(NUM_COLS).fill(0));
 
 export function useBoard() {
     const [grid, setGrid] = useState(() => createNewGrid());
@@ -50,7 +50,7 @@ export function useBoard() {
     const [score, setScore] = useState(0);
 
     useEffect(updateView, [grid, shape, position]);
-    useEffect(removeFilledLines, grid);
+    useEffect(removeFilledLines, [grid]);
     useInterval(tick, 600)
 
     function updateView() {
