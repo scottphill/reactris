@@ -29,7 +29,7 @@ function placeShapeIntoView(view, shape, position) {
 function fillPointInView(view, x, y) {
     // Doesn't update the view if the new position is already filled
     if(view[y][x])
-        return;
+        return view;
 
     // Makes a shallow copy of the view (but new copy of the row) and fills the 
     //   specified point.
@@ -66,7 +66,7 @@ export function useBoard() {
     function insertNewShape() {
         setGrid(placeShapeIntoView(grid, shape, position));
         setShape(randomShape());
-        setPosition(0, 0);
+        setPosition({x: 0, y: 0});
     }
 
     function rotateShape() {
@@ -132,7 +132,7 @@ export function useBoard() {
             let isFullRow = true;
 
             for(let x = 0; x < NUM_COLS; x++) {
-                if(newGrid[y][x] == FILLED) {
+                if(newGrid[y][x] !== FILLED) {
                     isFullRow = false;
                     break;
                 }
@@ -177,7 +177,7 @@ export function useBoard() {
             y: position.y + yDiff
         };
 
-        if(isValidPosition(newPosition, shape)) {
+        if(!isValidPosition(newPosition, shape)) {
             return false;
         }
         else {
