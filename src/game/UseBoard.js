@@ -20,7 +20,7 @@ function placeShapeIntoView(view, shape, position) {
         if(newX < 0 || newY < 0 || newX >= NUM_COLS || newY >= NUM_ROWS)
             return;
         else
-            result = fillPointInView(result, newX, newY);
+            result = fillPointInView(result, newX, newY, FILLED);
     });
 
     return result;
@@ -35,7 +35,7 @@ function fillPointInView(view, x, y) {
     //   specified point.
     const result = [...view];
     result[y] = [...view[y]];
-    result[y][x] = FILLED;
+    result[y][x] = color;
 
     return result;
 }
