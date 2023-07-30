@@ -20,18 +20,22 @@ body {
   height: 30px;
   box-sizing: border-box;
   color: grey;
+  border-bottom: 1px solid rgb(215, 215, 215);
+  border-right: 1px solid rgb(215, 215, 215);
+  border-top: 1px solid rgb(215, 215, 215);
+  border-left: 1px solid rgb(215, 215, 215);
 }
 
 .square-0 {
   background-color: black;
+  border-bottom: 1px solid rgb(32, 32, 32);
+  border-right: 1px solid rgb(32, 32, 32);
+  border-top: 1px solid rgb(32, 32, 32);
+  border-left: 1px solid rgb(32, 32, 32);
 }
 
 .square-1 {
   background-color: #00d;
-  border-bottom: 1px solid #00f;
-  border-right: 1px solid #00f;
-  border-top: 1px solid #00b;
-  border-left: 1px solid #00b;
 }
 
 .square-2 {

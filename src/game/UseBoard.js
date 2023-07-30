@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useInterval } from './UseInterval';
 import { randomShape } from './shapes';
+import { COLORS } from './constants';
 
 const NUM_ROWS =  20;
 const NUM_COLS = 10;
-const FILLED = 1;
 
 function copyGrid(grid) {
     return grid.map(row => [...row]);    
@@ -20,13 +20,13 @@ function placeShapeIntoView(view, shape, position) {
         if(newX < 0 || newY < 0 || newX >= NUM_COLS || newY >= NUM_ROWS)
             return;
         else
-            result = fillPointInView(result, newX, newY, FILLED);
+            result = fillPointInView(result, newX, newY, shape.color);
     });
 
     return result;
 }
 
-function fillPointInView(view, x, y) {
+function fillPointInView(view, x, y, color) {
     // Doesn't update the view if the new position is already filled
     if(view[y][x])
         return view;
@@ -97,7 +97,8 @@ export function useBoard() {
         const newShape = {
             coordinates: newPoints,
             width: shape.width,
-            height: shape.height
+            height: shape.height,
+            color: shape.color
         };
 
         if(isValidPosition(position, newShape))
@@ -125,14 +126,14 @@ export function useBoard() {
             }
 
             for(let x = 0; x < NUM_COLS - 1; x++)
-                newGrid[0][x] = 0;
+                newGrid[0][x] = COLORS.EMPTY;
         };
 
         for(let y = 0; y < NUM_ROWS; y++) {
             let isFullRow = true;
 
             for(let x = 0; x < NUM_COLS; x++) {
-                if(newGrid[y][x] !== FILLED) {
+                if(newGrid[y][x] === COLORS.EMPTY) {
                     isFullRow = false;
                     break;
                 }
@@ -193,7 +194,7 @@ export function useBoard() {
 
             return xPosition >= 0 && xPosition < NUM_COLS
                     && yPosition >= 0 && yPosition < NUM_ROWS
-                    && grid[yPosition][xPosition] !== FILLED;
+                    && grid[yPosition][xPosition] === COLORS.EMPTY;
         });
     }
 
