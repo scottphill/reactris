@@ -10,15 +10,28 @@ function copyGrid(grid) {
     return grid.map(row => [...row]);    
 }
 
+/**
+ * 
+ * @param {Array} view - The game board.
+ * @param {Object} shape - The shape to place into the view.
+ * @param {Object} position - The position to place the shape into the view.
+ * @returns {Array} - The updated view.
+ * 
+ * This function will place the specified shape into the view at the specified
+ *  position. The view will be copied and returned.
+ */
 function placeShapeIntoView(view, shape, position) {
+    // This will be the new view.
     let result = view;
 
     shape.coordinates.forEach( coordinate => {
         const newX = coordinate.x + position.x;
         const newY = coordinate.y + position.y;
 
+        // If the new position is outside of the view, don't update the view.
         if(newX < 0 || newY < 0 || newX >= NUM_COLS || newY >= NUM_ROWS)
             return;
+        // Otherwise, fill the point in the view with the shape's color.
         else
             result = fillPointInView(result, newX, newY, shape.color);
     });
@@ -26,6 +39,17 @@ function placeShapeIntoView(view, shape, position) {
     return result;
 }
 
+/**
+ * 
+ * @param {Array} view - The game board.
+ * @param {number} x - The x coordinate of the point to fill.
+ * @param {number} y - The y coordinate of the point to fill.
+ * @param {number} color - The color to fill the point with.
+ * @returns {Array} - The updated view.
+ * 
+ * This function will fill the specified point in the view with the specified
+ *  color. The view will be copied and returned.
+ */
 function fillPointInView(view, x, y, color) {
     // Doesn't update the view if the new position is already filled
     if(view[y][x])
@@ -172,6 +196,16 @@ export function useBoard() {
         }
     }
 
+    /**
+     * 
+     * @param {number} xDiff - The amount to move the shape in the x direction.
+     * @param {number} yDiff - The amount to move the shape in the y direction.
+     * @returns {boolean} - Whether or not the shape was able to move.
+     * 
+     * This function will try to move the shape by the specified amount. If the
+     * shape is able to move, it will be moved and the function will return
+     * true. If the shape is unable to move, the function will return false.
+     */
     function tryMoveShape(xDiff, yDiff) {
         const newPosition = {
             x: position.x + xDiff,
